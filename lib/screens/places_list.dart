@@ -1,7 +1,11 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_is_empty
+
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:greatplaces/Providers/greate_places.dart';
 import 'package:greatplaces/screens/add_place.screen.dart';
+import 'package:provider/provider.dart';
 
 class PlacesListScreen extends StatelessWidget {
   const PlacesListScreen({Key? key}) : super(key: key);
@@ -19,8 +23,25 @@ class PlacesListScreen extends StatelessWidget {
               icon: Icon(Icons.add))
         ],
       ),
-      body: Center(
-        child: CircularProgressIndicator(),
+      body: Consumer<GreatePlaces>(
+        builder: (context, greatplace, child) => greatplace.items.length <= 0
+            ? Center(
+                child: Text("Got no places yet start adding some "),
+              )
+            : ListView.builder(
+                itemCount: greatplace.items.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                      onTap: () {},
+                      title: Text(greatplace.items[index].title),
+                      leading: CircleAvatar(
+                        // backgroundImage: FileImage(File(_imageFileList!.path)),
+                        // backgroundImage: FileImage(File(greatplace.items[index].image.path)),
+                        backgroundImage: FileImage(
+                            File(greatplace.items[index].image!.path)),
+                      ));
+                },
+              ),
       ),
     );
   }
