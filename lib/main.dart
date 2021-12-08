@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
         title: 'Great Places',
         theme:
             ThemeData(primarySwatch: Colors.brown, accentColor: Colors.orange),
+        // home: FlutterDemo(storage: CounterStorage()),
         home: PlacesListScreen(),
         routes: {AddPlaceScreen.routeName: (ctx) => AddPlaceScreen()},
       ),
