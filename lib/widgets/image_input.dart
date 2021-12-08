@@ -1,13 +1,16 @@
-// ignore_for_file: unused_field, prefer_const_constructors, unused_local_variable, avoid_print, unnecessary_null_comparison
+// ignore_for_file: unused_field, prefer_const_constructors, unused_local_variable, avoid_print, unnecessary_null_comparison, prefer_const_constructors_in_immutables, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspath;
+import 'package:path_provider/path_provider.dart';
 
 class ImageInput extends StatefulWidget {
-  const ImageInput({Key? key}) : super(key: key);
+  final Function onSelectImg;
+
+  ImageInput(this.onSelectImg);
 
   @override
   _ImageInputState createState() => _ImageInputState();
@@ -18,27 +21,36 @@ class _ImageInputState extends State<ImageInput> {
   String? phonePath;
 
   XFile? _imageFileList;
+
   _imageFile(XFile value) async {
     _imageFileList = value == null ? null : value;
     // get correct path
     final appDir = syspath.getApplicationDocumentsDirectory();
     print("hello ************");
-
-    final directory = await syspath.getApplicationDocumentsDirectory();
+    // got local path
+    final directory = await getApplicationDocumentsDirectory();
     print("this");
+    print(directory.path);
     print(directory);
     print("this again");
-    path.basename(_imageFileList!.path);
+    final filename = path.basename(_imageFileList!.path);
     //_imageFileList.copy(appDir.path);
-
+    var devicepath = directory.path;
     var imagepath = _imageFileList!.path;
-    final file = File('$directory/$imagepath');
-    file.writeAsString;
+
+    print(filename);
+    // got local file
+    final file = File('$devicepath/$filename');
+    print(file);
+    final savedImage = file.writeAsString;
+    widget.onSelectImg(_imageFileList);
+    print(savedImage);
 
     setState(() {
       phonePath = appDir.toString();
     });
   }
+  // differentiate how to save
 
   Future<void> _takePicture() async {
     final imagePicker = ImagePicker();
