@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:greatplaces/Providers/greate_places.dart';
 import 'package:greatplaces/screens/add_place.screen.dart';
+import 'package:greatplaces/screens/viewindetail.dart';
 import 'package:provider/provider.dart';
 
 class PlacesListScreen extends StatelessWidget {
@@ -47,9 +48,15 @@ class PlacesListScreen extends StatelessWidget {
                           itemCount: greatplace.items.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
-                              //  image detail
                               onTap: () {
                                 print("hello");
+
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DetailDart(
+                                            greatplace
+                                                .items[index].image!.path)));
                               },
                               child: Card(
                                 shape: OutlineInputBorder(
