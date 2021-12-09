@@ -31,26 +31,64 @@ class PlacesListScreen extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 )
               : Consumer<GreatePlaces>(
-                  builder: (context, greatplace, child) =>
-                      greatplace.items.length <= 0
-                          ? Center(
-                              child:
-                                  Text("Got no places yet start adding some "),
-                            )
-                          : ListView.builder(
-                              itemCount: greatplace.items.length,
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                    onTap: () {},
-                                    title: Text(greatplace.items[index].title),
-                                    leading: CircleAvatar(
+                  builder: (context, greatplace, child) => greatplace
+                              .items.length <=
+                          0
+                      ? Center(
+                          child: Text("Got no places yet start adding some "),
+                        )
+                      : GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 200,
+                                  childAspectRatio: 3 / 2,
+                                  crossAxisSpacing: 20,
+                                  mainAxisSpacing: 20),
+                          itemCount: greatplace.items.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              //  image detail
+                              onTap: () {
+                                print("hello");
+                              },
+                              child: Card(
+                                shape: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: Colors.white)),
+                                elevation: 8,
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    CircleAvatar(
+                                      radius: 30,
                                       // backgroundImage: FileImage(File(_imageFileList!.path)),
                                       // backgroundImage: FileImage(File(greatplace.items[index].image.path)),
                                       backgroundImage: FileImage(File(
                                           greatplace.items[index].image!.path)),
-                                    ));
-                              },
-                            ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      greatplace.items[index].title,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      greatplace.items[index].location.address,
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                 ),
         ));
   }
