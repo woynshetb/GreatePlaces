@@ -22,4 +22,12 @@ class Place {
       required this.title,
       required this.location,
       required this.image});
+
+  // Map<String, dynamic> toMap() {
+  //   return {
+  //     'id': id,
+  //     'title': title,
+  //     'image': image,
+  //   };
+  // }
 }
