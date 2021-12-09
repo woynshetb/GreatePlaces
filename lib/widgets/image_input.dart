@@ -74,9 +74,7 @@ class _ImageInputState extends State<ImageInput> {
                 "no image is taken",
                 textAlign: TextAlign.center,
               )
-            : CircleAvatar(
-                backgroundImage: FileImage(File(_imageFileList!.path)),
-              ),
+            : CircleAvatar(),
       ),
       // ignore: prefer_const_constructors
       SizedBox(
