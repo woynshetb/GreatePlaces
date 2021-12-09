@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_final_fields, unused_field
 
 import 'package:flutter/foundation.dart';
+import 'package:greatplaces/widgets/location_input.dart';
 import 'package:image_picker/image_picker.dart';
 import '../models/place.dart';
 import '../Helpers/db_helper.dart';
@@ -14,15 +15,15 @@ class GreatePlaces with ChangeNotifier {
   }
 
   void addPlace(
-    String pickedTitle,
-    XFile? pickedImage,
-  ) {
+      String pickedTitle, XFile? pickedImage, PlaceLocation? locData) {
     final newPlace = Place(
       id: DateTime.now().toString(),
       image: pickedImage,
       title: pickedTitle,
-      location:
-          PlaceLocation(address: "address", latitude: 1221, longtude: 1221),
+      location: PlaceLocation(
+          address: locData!.address,
+          latitude: locData!.latitude,
+          longtude: locData!.longtude),
     );
     _items.add(newPlace);
     notifyListeners();
@@ -30,6 +31,9 @@ class GreatePlaces with ChangeNotifier {
       'id': newPlace.id,
       'title': newPlace.title,
       'image': newPlace.image!.path,
+      'location_latitude': newPlace.location.latitude,
+      'location_longtude': newPlace.location.longtude,
+      'address': newPlace.location.address
     });
   }
 
@@ -57,7 +61,10 @@ class GreatePlaces with ChangeNotifier {
         id: maps[i]['id'],
         title: maps[i]['title'],
         image: XFile(maps[i]['image']),
-        location: PlaceLocation(address: "", latitude: 1221, longtude: 1221),
+        location: PlaceLocation(
+            address: maps[i]['address'],
+            latitude: maps[i]['location_latitude'],
+            longtude: maps[i]['location_longtude']),
       );
     });
 
