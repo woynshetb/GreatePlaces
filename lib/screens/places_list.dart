@@ -13,36 +13,45 @@ class PlacesListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Your Check in palces"),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, AddPlaceScreen.routeName);
-              },
-              icon: Icon(Icons.add))
-        ],
-      ),
-      body: Consumer<GreatePlaces>(
-        builder: (context, greatplace, child) => greatplace.items.length <= 0
-            ? Center(
-                child: Text("Got no places yet start adding some "),
-              )
-            : ListView.builder(
-                itemCount: greatplace.items.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                      onTap: () {},
-                      title: Text(greatplace.items[index].title),
-                      leading: CircleAvatar(
-                        // backgroundImage: FileImage(File(_imageFileList!.path)),
-                        // backgroundImage: FileImage(File(greatplace.items[index].image.path)),
-                        backgroundImage: FileImage(
-                            File(greatplace.items[index].image!.path)),
-                      ));
+        appBar: AppBar(
+          title: Text("Your Check in palces"),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, AddPlaceScreen.routeName);
                 },
-              ),
-      ),
-    );
+                icon: Icon(Icons.add))
+          ],
+        ),
+        body: FutureBuilder(
+          future: Provider.of<GreatePlaces>(context, listen: false).placesss(),
+          builder: (context, snapshot) => snapshot.connectionState ==
+                  ConnectionState.waiting
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Consumer<GreatePlaces>(
+                  builder: (context, greatplace, child) =>
+                      greatplace.items.length <= 0
+                          ? Center(
+                              child:
+                                  Text("Got no places yet start adding some "),
+                            )
+                          : ListView.builder(
+                              itemCount: greatplace.items.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                    onTap: () {},
+                                    title: Text(greatplace.items[index].title),
+                                    leading: CircleAvatar(
+                                      // backgroundImage: FileImage(File(_imageFileList!.path)),
+                                      // backgroundImage: FileImage(File(greatplace.items[index].image.path)),
+                                      backgroundImage: FileImage(File(
+                                          greatplace.items[index].image!.path)),
+                                    ));
+                              },
+                            ),
+                ),
+        ));
   }
 }
